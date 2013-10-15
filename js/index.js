@@ -1,7 +1,9 @@
 var Game = {
   questions: [
-    ["Ar pienas baltas?", "Taip", "Ne", "Nežinau", 1, "arklys.jpg"],
-    ["Ką geria karvė?", "Pieną", "Alų", "Brendį", 1]
+    ["Kur namų raktai?", "Rankoj, asile", "Pamečiau", "Neturiu namų", 2, "http://placekitten.com/200/300"],
+    ["Ar už tokią Lietuvą kovojom?", "NE!", "NE!", "NE!", 2, "http://placekitten.com/240/350"],
+    ["Ar pienas baltas?", "Taip", "Ne", "Nežinau", 1, "http://placekitten.com/280/230"],
+    ["Ką geria karvė?", "Pieną", "Alų", "Brendį", 1, "http://placekitten.com/340/230"]
   ],
   
   // Elements
@@ -61,8 +63,8 @@ var Game = {
       this.populateAnswers(random, this.questions[random][4]);
       
       if(question.length === 6) {
-        return this.el.question.innerHTML = '<img src="'+this.assets.images+'/'+question[5]+'" />'+question[0];
-        //return this.el.question.innerHTML = '<img src="http://placekitten.com/300/400" />'+question[0];
+        //return this.el.question.innerHTML = '<img src="'+this.assets.images+'/'+question[5]+'" />'+question[0];
+        return this.el.question.innerHTML = '<img src="'+question[5]+'" />'+question[0];
       }
       
       return this.el.question.innerHTML = question[0];
@@ -75,6 +77,10 @@ var Game = {
     this.el.answerOne.innerHTML = this.questions[question][1];
     this.el.answerTwo.innerHTML = this.questions[question][2];
     this.el.answerThree.innerHTML = this.questions[question][3];
+    // mix it all up
+    for (var i = this.el.answers.children.length; i >= 0; i--) {
+      this.el.answers.appendChild(this.el.answers.children[Math.random() * i | 0]);
+    }
   },
   checkAnswer: function() {
     // this is not good, better fix it
