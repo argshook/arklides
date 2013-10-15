@@ -1,0 +1,107 @@
+@import "base";
+
+body {
+  background: $background;
+  font-family: sans-serif;
+  font-size: 1em;
+}
+
+#game {
+  width: 500px;
+  min-height: 300px;
+  margin: 30px auto;
+  border: 1px solid $color1;
+  border-radius: 4px;
+  padding: 7px;
+  background: fade-out($color1, 0.4);
+  position: relative;
+}
+
+#question {
+  background: $color1;
+  font-size: 1.4em;
+  padding: 0.5em 0;
+  text-align: center;
+  color: darken($white, 30%);
+  text-shadow: 0 1px 0 $grey;
+  border: 1px solid $color2;
+  box-shadow: 1px 1px 0 1px $color2;
+  img {
+    display: block;
+    margin: 0.3em auto;
+    padding: 0.2em;
+    border: 1px solid $color2;
+    background: fade-out($color1, 0.3);
+    @include animation(imgIn 0.5s linear);
+    max-width: 80%;
+    height: auto;
+  }
+}
+
+#answers {
+  background: $color1;
+  margin: 1.2em 0;
+  border: 1px solid $color2;
+  box-shadow: 1px 1px 0 1px $color2;
+  color: $white;
+  text-shadow: 0 1px 0 $grey;
+  list-style: none;
+  padding: 0;
+  @include user-select(none);
+  li {
+    font-size: 1em;
+    padding: 0.5em;
+    margin: 0.2em;
+    @include linear-gradient($color1, darken($color1, 1%));
+    @include transition(0.2s all ease-in-out);
+    border: 1px solid $color1;
+    &:hover {
+      @include transform(scale(1.03));
+      @include linear-gradient($color1, darken($color1, 4%));
+      box-shadow: 5px 5px 10px 0 $color2;
+      border: 1px solid $color2;
+    }
+    &:active {
+      @include transform(scale(1));
+      @include linear-gradient(darken($color1, 4%), $color1);
+    }
+  }
+}
+
+#gameOver {
+  display: none;
+  position: absolute;
+  width: 80%;
+  min-height: 150px;
+  left: 50%; top: 50%;
+  margin-top: -75px;
+  margin-left: -40%;
+  background: fade-out($color1, 0.4);
+  z-index: 100;
+  text-align: center;
+  padding: 2em;
+  font-size: 1em;
+  color: $white;
+  text-shadow: 0 1px 1px $grey;
+  border-radius: 3px;
+  border: 1px solid $color2;
+  box-shadow: 3px 3px 5px 0 darken($color1, 20%);
+  @include animation(noteIn 0.2s ease-in);
+  #playAgain {
+    margin: 3em auto 0 auto;
+    width: 60%;
+    padding: 1em;
+    border-radius: 2px;
+    cursor: pointer;
+    @include linear-gradient(lighten($color2, 3%), $color2);
+    @include transition(all 0.2s linear);
+    &:hover {
+      @include linear-gradient(lighten($color2, 1%), $color2);
+      box-shadow: 0 0 15px 0 fade-out($black, 0.3) inset;
+    }
+    &:active {
+      box-shadow: 0 0 30px 0 fade-out($black, 0.1) inset;
+      @include transform(scale(0.98));
+    }
+  }
+}

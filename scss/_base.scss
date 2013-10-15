@@ -1,0 +1,41 @@
+@import "bourbon/bourbon";
+
+// Colors
+
+$background: hsl(234deg, 40,24);
+
+$color1: hsl(124deg,40,24);
+$color2: darken($color1, 10%);
+
+$white: #fff;
+$black: #000;
+$grey: #333;
+
+*, *:before, *:after {
+  @include box-sizing(border-box);
+}
+
+
+
+// keyframes
+
+@include keyframes(noteIn) {
+  0% {
+    opacity: 0;
+    @include transform(translateY(40px));
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+@include keyframes(imgIn) {
+  0% {
+    opacity: 0;
+    @include transform(scale(0));
+  }
+  100% {
+    opacity: 1;
+    @include transform(scale(1));
+  }
+}
