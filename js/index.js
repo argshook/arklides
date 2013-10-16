@@ -3,7 +3,8 @@ var Game = {
     ["Kur namų raktai?", "Rankoj, asile", "Pamečiau", "Neturiu namų", 2, "http://placekitten.com/200/300"],
     ["Ar už tokią Lietuvą kovojom?", "NE!", "NE!", "NE!", 2, "http://placekitten.com/240/350"],
     ["Ar pienas baltas?", "Taip", "Ne", "Nežinau", 1, "http://placekitten.com/280/230"],
-    ["Ką geria karvė?", "Pieną", "Alų", "Brendį", 1, "http://placekitten.com/340/230"]
+    ["Ką geria karvė?", "Pieną", "Alų", "Brendį", 1, "http://placekitten.com/340/230"],
+    ["Klausimas be paveikslėlio", "Aina sau!", "A i taip galima?", "jezusmarija!", 3]
   ],
   
   // Elements
@@ -42,6 +43,8 @@ var Game = {
   restart: function() {
     this.currentQuestion = "";
     this.currentAnswer = 0;
+    this.score = 0;
+    this.el.score.innerHTML = this.score;
     this.el.gameOver.style.display = "none";
     this.start();
   },
