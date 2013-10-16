@@ -15,7 +15,8 @@ var Game = {
     "answerThree": document.getElementById("answerThree"),
     "gameOver": document.getElementById("gameOver"),
     "playAgain": document.getElementById("playAgain"),
-    "score": document.getElementById("score")
+    "score": document.getElementById("score"),
+    "deathScore": document.getElementById("deathScore")
   },
   init: function() {
     this.currentQuestion = "";
@@ -99,6 +100,7 @@ var Game = {
   },
   inCorrect: function() {
     this.el.gameOver.style.display = "block";
+    this.el.deathScore.innerHTML = "Viso atspėjai "+this.score;
     this.el.playAgain.onclick = function() {
       Game.restart();
     };
