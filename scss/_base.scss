@@ -6,9 +6,9 @@ $white: #fff;
 $black: #000;
 $grey: #333;
 
-$background: hsl(124deg, 5, 44);
+$background: hsl(124deg, 2, 14);
 
-$color1: hsl(124deg,30,35);
+$color1: hsl(135deg,20,45);
 $color2: darken($color1, 15%);
 
 *, *:before, *:after {
@@ -32,10 +32,10 @@ $color2: darken($color1, 15%);
 @include keyframes(imgIn) {
   0% {
     opacity: 0;
-    @include transform(scale(0));
+    @include transform(translateX(3em));
   }
   100% {
     opacity: 1;
-    @include transform(scale(1));
+    @include transform(translateX(0));
   }
 }

@@ -60,7 +60,7 @@ p {
     padding: 0.2em;
     border: 1px solid $color2;
     background: fade-out($color1, 0.3);
-    @include animation(imgIn 0.5s linear);
+    @include animation(imgIn 0.5s ease-out);
     max-width: 80%;
     height: auto;
     max-height: 400px;

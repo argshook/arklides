@@ -60,7 +60,6 @@ var Game = {
 
       if(question.length === 4) {
         return this.el.question.innerHTML = '<img src="'+this.assets.images+'/'+question[3]+'" />'+question[0];
-        //return this.el.question.innerHTML = '<img src="'+question[5]+'" />'+question[0];
       }
       
       return this.el.question.innerHTML = question[0];
@@ -70,10 +69,10 @@ var Game = {
   },
   populateAnswers: function(question, answers, correctAnswer) {
     this.currentAnswer = correctAnswer;
-    
+
     // remove previous answers
     this.el.answers.innerHTML = "";
-    
+
     // add new answers in random order
     for (var i = 0; i < answers.length; i++) {
       var answer = document.createElement('li');
@@ -88,9 +87,9 @@ var Game = {
       // add click listeners
       this.el.answers.children[i].answerId = i + 1; // not ++i
       this.el.answers.children[i].onclick = this.checkAnswer;
-      //this.el.answers.children[i].addEventListener("click", this.checkAnswer, false);
 
     }
+
   },
   checkAnswer: function(e) {
     // TODO: how can I pass the Game object without invoking it here?
