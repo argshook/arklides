@@ -1,17 +1,14 @@
 var Game = {
   questions: [
-    ["Koks žirgelis čia rupšnoja žolelę?", "Žemaičių riestasis", "Obuolmušis", "Bėras", 2, "arklys.jpg"],
-    ["Kas pavaizduota?", "Obuolmušis", "Vytauto didžiojo malamutas", "Inga Valinskienė", 1, "arklys.jpg"],
-    ["Ar tai Rupšnotojas didysis?", "Taip", "Ne", "Toks neegzistuoja", 3, "arklys.jpg"]
+    ["Koks žirgelis čia rupšnoja žolelę?", ["Žemaičių riestasis", "Obuolmušis", "Bėras"], 2, "arklys.jpg"],
+    ["Kas pavaizduota?", ["Obuolmušis", "Vytauto didžiojo malamutas", "Inga Valinskienė"], 1, "arklys.jpg"],
+    ["Ar tai Rupšnotojas didysis?", ["Taip", "Ne", "Toks neegzistuoja"], 3, "arklys.jpg"]
   ],
   
   // Elements
   el: {
     "question": document.getElementById("question"),
     "answers": document.getElementById("answers"),
-    "answerOne": document.getElementById("answerOne"),
-    "answerTwo": document.getElementById("answerTwo"),
-    "answerThree": document.getElementById("answerThree"),
     "gameOver": document.getElementById("gameOver"),
     "playAgain": document.getElementById("playAgain"),
     "score": document.getElementById("score"),
@@ -48,22 +45,21 @@ var Game = {
   },
   generateQuestion: function(questions) {
     /* questions[question][0] - the question
-       questions[question][1] - the first answer
-       questions[question][2] - the second answer
-       questions[question][3] - the third answer
-       questions[question][4] - the correct answer (number 1, 2 or 3)
-       questions[question][5] - the image to go along with the question (optional)
+       questions[question][1] - array of the the answers
+       questions[question][2] - the correct answer (NOT array index, so do -1 for that)
+       questions[question][3] - the image to go along with the question (optional)
     */
     
     if(questions.length > 0) {
       var random = this.getRandInRange(0, questions.length),
           question = this.questions[random];
-      
+
       this.currentQuestion = question;
-      this.populateAnswers(random, this.questions[random][4]);
-      
-      if(question.length === 6) {
-        return this.el.question.innerHTML = '<img src="'+this.assets.images+'/'+question[5]+'" />'+question[0];
+      // display answers in #answers
+      this.populateAnswers(random, question[1], question[2]);
+
+      if(question.length === 4) {
+        return this.el.question.innerHTML = '<img src="'+this.assets.images+'/'+question[3]+'" />'+question[0];
         //return this.el.question.innerHTML = '<img src="'+question[5]+'" />'+question[0];
       }
       
@@ -72,24 +68,33 @@ var Game = {
       this.el.questionInnerHTML = "Nėra klausimų :(";
     }
   },
-  populateAnswers: function(question, answer) {
-    this.currentAnswer = answer;
-    this.el.answerOne.innerHTML = this.questions[question][1];
-    this.el.answerTwo.innerHTML = this.questions[question][2];
-    this.el.answerThree.innerHTML = this.questions[question][3];
-    // mix it all up
-    for (var i = this.el.answers.children.length; i >= 0; i--) {
-      this.el.answers.appendChild(this.el.answers.children[Math.random() * i | 0]);
+  populateAnswers: function(question, answers, correctAnswer) {
+    this.currentAnswer = correctAnswer;
+    
+    // remove previous answers
+    this.el.answers.innerHTML = "";
+    
+    // add new answers in random order
+    for (var i = 0; i < answers.length; i++) {
+      var answer = document.createElement('li');
+      answer.innerHTML = answers[i];
+      //answer.id = "answer"+i;
+      
+      // TODO: randomize answers order!
+      
+      //this.el.answers.appendChild(answers[Math.random() * i | 0]);
+      this.el.answers.appendChild(answer);
+
+      // add click listeners
+      this.el.answers.children[i].answerId = i + 1; // not ++i
+      this.el.answers.children[i].onclick = this.checkAnswer;
+      //this.el.answers.children[i].addEventListener("click", this.checkAnswer, false);
+
     }
   },
-  checkAnswer: function() {
-    // this is not good, better fix it
-    var currentAnswer = Game.currentAnswer;
-    if (this.id === "answerOne" && currentAnswer === 1) {
-      return Game.correct(this.id);
-    } else if (this.id === "answerTwo" && currentAnswer === 2) {
-      return Game.correct(this.id);
-    } else if (this.id === "answerThree" && currentAnswer === 3) {
+  checkAnswer: function(e) {
+    // TODO: how can I pass the Game object without invoking it here?
+    if(e.target.answerId === Game.currentAnswer) {
       return Game.correct(this.id);
     } else {
       return Game.inCorrect(this.id);
@@ -115,12 +120,5 @@ var Game = {
 };
 
 window.onload = function() {
-  
-  // listen to answers being clicked and check if it's correct
-  Game.el.answerOne.addEventListener("click", Game.checkAnswer, false);
-  Game.el.answerTwo.addEventListener("click", Game.checkAnswer, false);
-  Game.el.answerThree.addEventListener("click", Game.checkAnswer, false);
-  
-  
   Game.init();
 };
