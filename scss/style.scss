@@ -26,12 +26,18 @@ p {
   display: block;
   margin: 1em auto;
   width: 80%;
+  font-size: 1.1em;
+  color: $white;
+  text-shadow: 0 1px 0 $color1;
+  background: fade-out($color1, 0.4);
+  border-radius: 3px;
+  padding: 0.3em;
 }
 
 #game {
   width: 500px;
   min-height: 300px;
-  margin: 30px auto;
+  margin: 0 auto;
   border: 1px solid $color1;
   border-radius: 4px;
   padding: 7px;
@@ -57,12 +63,12 @@ p {
     @include animation(imgIn 0.5s linear);
     max-width: 80%;
     height: auto;
+    max-height: 400px;
   }
 }
 
 #answers {
   background: $color1;
-  margin: 1.2em 0;
   border: 1px solid $color2;
   box-shadow: 1px 1px 0 1px $color2;
   color: $white;
@@ -126,4 +132,30 @@ p {
       @include transform(scale(0.98));
     }
   }
+}
+
+.score {
+  display: block;
+  margin: 1em auto;
+  text-align: center;
+  font-size: 1.2em;
+  #score {
+    font-family: 'Underdog', sans-serif;
+    text-align: center;
+    font-size: 2em;
+    -webkit-text-stroke: 1px $color1;
+    text-shadow:
+     -1px -1px 0 $color1,
+      1px -1px 0 $color1,
+      -1px 1px 0 $color1,
+       1px 1px 0 $color1;
+  }
+}
+
+#note {
+  display: none;
+  margin: 0.5em 0;
+  text-align: center;
+  color: $white;
+  text-shadow: 0 1px 0 $color1;
 }

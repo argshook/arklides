@@ -13,7 +13,6 @@ var Game = {
     "answerOne": document.getElementById("answerOne"),
     "answerTwo": document.getElementById("answerTwo"),
     "answerThree": document.getElementById("answerThree"),
-    "note": document.getElementById("note"),
     "gameOver": document.getElementById("gameOver"),
     "playAgain": document.getElementById("playAgain"),
     "score": document.getElementById("score")
@@ -43,7 +42,6 @@ var Game = {
     this.currentQuestion = "";
     this.currentAnswer = 0;
     this.el.gameOver.style.display = "none";
-    this.el.note.innerHTML = "";
     this.start();
   },
   generateQuestion: function(questions) {
@@ -96,13 +94,11 @@ var Game = {
     }
   },
   correct: function() {
-    this.el.note.innerHTML = "Teisingai!";
     this.el.score.innerHTML = ++this.score;
     this.generateQuestion(this.questions);
   },
   inCorrect: function() {
     this.el.gameOver.style.display = "block";
-    this.el.note.innerHTML = "Neteisingai :(";
     this.el.playAgain.onclick = function() {
       Game.restart();
     };
