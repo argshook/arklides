@@ -1,7 +1,7 @@
 var Game = {
   questions: [
     ["Koks žirgelis čia rupšnoja žolelę?", ["Žemaičių riestasis", "Obuolmušis", "Bėras"], 2, "arklys.jpg"],
-    ["Kas pavaizduota?", ["Obuolmušis", "Vytauto didžiojo malamutas", "Inga Valinskienė"], 1, "arklys.jpg"],
+    ["Kas pavaizduota?", ["Obuolmušis", "Vytauto didžiojo skydas", "Garsi aktorė"], 1, "arklys.jpg"],
     ["Ar tai Rupšnotojas didysis?", ["Taip", "Ne", "Toks neegzistuoja"], 3, "arklys.jpg"]
   ],
   
