@@ -1,36 +1,29 @@
 var Game = {
-  questions: [
-    ["Koks žirgelis čia rupšnoja žolelę?", ["Žemaičių riestasis", "Obuolmušis", "Bėras"], 2, "arklys.jpg"],
-    ["Kas pavaizduota?", ["Obuolmušis", "Vytauto didžiojo skydas", "Garsi aktorė"], 1, "arklys.jpg"],
-    ["Ar tai Rupšnotojas didysis?", ["Taip", "Ne", "Toks neegzistuoja"], 3, "arklys.jpg"]
-  ],
-  
-  // Elements
-  el: {
-    "question": document.getElementById("question"),
-    "answers": document.getElementById("answers"),
-    "gameOver": document.getElementById("gameOver"),
-    "playAgain": document.getElementById("playAgain"),
-    "score": document.getElementById("score"),
-    "deathScore": document.getElementById("deathScore")
-  },
+
+  /*============================================*\
+                    MAIN ENGINE
+  \*============================================*/
+
   init: function() {
     this.currentQuestion = "";
     this.currentAnswer = 0;
-    this.score = 0;
-    this.el.score.innerHTML = "0";
-    
+    this.multiplier = 0;
+    this.score = this.el.score.innerHTML = 0;
+
     this.assets = {};
-    
-    this.assets.images = "assets/images";
-    
-    this.start();
+    this.assets.questions = "assets/questions/";
+    this.assets.images = "assets/images/";
+
+    // load initial questions and initiate this.start as a callback to start the game
+    this.loadQuestions(this.assets.questions+"questions.json", this.start, this);
+
+    this.notify("Sėkmės žaidime!", true);
+
   },
   start: function() {
     if(this.currentQuestion === "") {
       // display the question and populate answers
       this.generateQuestion(this.questions);
-           
     } else {
       this.el.question.innerHTML = "?";
     }
@@ -39,17 +32,60 @@ var Game = {
     this.currentQuestion = "";
     this.currentAnswer = 0;
     this.score = 0;
-    this.el.score.innerHTML = this.score;
-    this.el.gameOver.style.display = "none";
+    this.el.score.innerHTML = 0;
+    this.el.gameOver.className = "hidden";
     this.start();
   },
+  gameOver: function() {
+    this.el.gameOver.className = "";
+    this.el.deathScore.innerHTML = "Surinkai "+this.score+"!";
+    this.notify("Žaidimas baigtas :(");
+    var that = this; // this is nasty
+    this.el.playAgain.onclick = function() {
+      that.restart();
+    };
+  },
+  
+  /*============================================*\
+                      SCORE
+  \*============================================*/
+
+  addScore: function(howMuch) {
+    var reward = this.multiplyScore(howMuch, this.multiplier);
+    this.score += reward;
+    this.notify("+"+reward+"!");
+    this.printScore(this.score);
+  },
+  subtractScore: function(howMuch) {
+    var punishment = this.divideScore(howMuch, this.multiplier);
+    this.score -= punishment;
+    this.notify("-"+punishment+" :(");
+    this.printScore(this.score);
+  },
+  printScore: function(score) {
+    this.el.score.innerHTML = score;
+  },
+  multiplyScore: function(score, multiplier) {
+    return multiplier > 0 ? (this.score * multiplier) | 0 : score;
+  },
+  divideScore: function(score, multiplier) {
+    return multiplier > 0 ? (this.score / multiplier) | 0 : score;
+  },
+
+  /*============================================*\
+                    QUESTIONS
+  \*============================================*/
+
   generateQuestion: function(questions) {
+
+    // generate question & populate answers
+
     /* questions[question][0] - the question
        questions[question][1] - array of the the answers
        questions[question][2] - the correct answer (NOT array index, so do -1 for that)
        questions[question][3] - the image to go along with the question (optional)
     */
-    
+
     if(questions.length > 0) {
       var random = this.getRandInRange(0, questions.length),
           question = this.questions[random];
@@ -58,10 +94,11 @@ var Game = {
       // display answers in #answers
       this.populateAnswers(random, question[1], question[2]);
 
+      // question has image, display it
       if(question.length === 4) {
-        return this.el.question.innerHTML = '<img src="'+this.assets.images+'/'+question[3]+'" />'+question[0];
+        return this.el.question.innerHTML = '<img src="'+this.assets.images+question[3]+'" />'+question[0];
       }
-      
+
       return this.el.question.innerHTML = question[0];
     } else {
       this.el.questionInnerHTML = "Nėra klausimų :(";
@@ -77,7 +114,6 @@ var Game = {
     for (var i = 0; i < answers.length; i++) {
       var answer = document.createElement('li');
       answer.innerHTML = answers[i];
-      //answer.id = "answer"+i;
       
       // TODO: randomize answers order!
       
@@ -87,33 +123,93 @@ var Game = {
       // add click listeners
       this.el.answers.children[i].answerId = i + 1; // not ++i
       this.el.answers.children[i].onclick = this.checkAnswer;
-
     }
-
   },
   checkAnswer: function(e) {
     // TODO: how can I pass the Game object without invoking it here?
     if(e.target.answerId === Game.currentAnswer) {
-      return Game.correct(this.id);
+      return Game.correct();
     } else {
-      return Game.inCorrect(this.id);
+      return Game.inCorrect();
     }
   },
   correct: function() {
-    this.el.score.innerHTML = ++this.score;
+    this.addScore(1);
     this.generateQuestion(this.questions);
   },
   inCorrect: function() {
-    this.el.gameOver.style.display = "block";
-    this.el.deathScore.innerHTML = "Viso atspėjai "+this.score;
-    this.el.playAgain.onclick = function() {
-      Game.restart();
-    };
+    this.subtractScore(1);
+    if(this.score > 0) {
+      this.generateQuestion(this.questions);
+    } else {
+      this.gameOver();
+    }
+  },
+  switchQuestions: function(path) {
+    this.questions = "";
+    this.currentQuestion = "";
+    this.currentAnswer = "";
+    this.notify("Klausimai pakeisti!");
+    this.loadQuestions(path, this.start, this);
+  },
+  loadQuestions: function(path, callback, callbackObj) {
+    return this.fetchJSON(path, function(data) {
+      if(typeof callback === "function") {
+        callbackObj.questions = data.questions;
+        callback.apply(callbackObj);
+      }
+    });
+  },
+
+  /*============================================*\
+                      HELPERS
+  \*============================================*/
+  
+  // Elements
+  el: {
+    "question": document.getElementById("question"),
+    "answers": document.getElementById("answers"),
+    "gameOver": document.getElementById("gameOver"),
+    "playAgain": document.getElementById("playAgain"),
+    "score": document.getElementById("score"),
+    "deathScore": document.getElementById("deathScore"),
+    "notifications": document.getElementById('notifications')
   },
   
-  // Helper functions
+  // Notify user by displaying a message
+  notify: function(message, clear) {
+    // clear notification area using Game.notify("message", true);
+    if(clear) {
+      this.el.notifications.innerHTML = "";
+    }
+
+    var messageEl = document.createElement('li');
+    messageEl.innerHTML = message;
+    this.el.notifications.insertBefore(messageEl, this.el.notifications.children[0]);
+    //this.el.notifications.appendChild(messageEl);
+
+    this.el.notifications.scrollTop = 0;
+    
+    if(this.el.notifications.children.length > 4) {
+      this.el.notifications.removeChild(this.el.notifications.children[this.el.notifications.children.length -1]);
+    }
+    
+  },
   getRandInRange: function(min, max) {
     return Math.random() * (max - min) + min | 0;
+  },
+  fetchJSON: function(path, callback) {
+    var httpRequest = new XMLHttpRequest();
+    httpRequest.onreadystatechange = function() {
+      if(httpRequest.readyState === 4) {
+        if(httpRequest.status === 200) {
+          var data = JSON.parse(httpRequest.responseText);
+          if(callback) callback(data);
+        }
+      }
+    };
+    httpRequest.open('GET', path);
+    httpRequest.send(); 
   }
 
 };

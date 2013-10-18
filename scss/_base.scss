@@ -11,6 +11,12 @@ $background: hsl(124deg, 2, 14);
 $color1: hsl(135deg,20,45);
 $color2: darken($color1, 15%);
 
+// Dimensions
+
+$mainWidth: 90%;
+$mainFontSize: 0.8em;
+
+
 *, *:before, *:after {
   @include box-sizing(border-box);
 }
@@ -22,12 +28,23 @@ $color2: darken($color1, 15%);
 @include keyframes(noteIn) {
   0% {
     opacity: 0;
-    @include transform(translateY(40px));
+    @include transform(translateY(-40px));
   }
   100% {
     opacity: 1;
   }
 }
+
+@include keyframes(noteOut) {
+  0% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+    @include transform(translateY(40px));
+  }
+}
+
 
 @include keyframes(imgIn) {
   0% {
