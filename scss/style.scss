@@ -161,16 +161,13 @@ p {
   color: $white;
   text-shadow: 0 1px 0 $color1;
   list-style: none;
-  border: 1px solid $color1;
   background: $color1;
   border-radius: 3px;
   overflow: hidden;
   box-shadow:
       0 0 30px 0 $color2 inset,
       0 -30px 100px -10px $color2 inset,
-      0px 0px 0 1px $color1,
-      1px 1px 0 1px darken($color1, 10%),
-      2px 2px 0 1px darken($color1, 20%);
+      0px 0px 0 1px $color1;
 
   li {
     width: 100%;

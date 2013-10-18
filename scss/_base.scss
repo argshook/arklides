@@ -1,4 +1,5 @@
 @import "bourbon/bourbon";
+@import "neat/neat";
 
 // Colors
 
@@ -8,7 +9,10 @@ $grey: #333;
 
 $background: hsl(124deg, 2, 14);
 
-$color1: hsl(135deg,20,45);
+//$color1: hsl(135deg,20,45);
+//$color2: darken($color1, 15%);
+
+$color1: hsl(235deg,15,20);
 $color2: darken($color1, 15%);
 
 // Dimensions
