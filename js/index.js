@@ -34,6 +34,7 @@ var Game = {
     this.score = 0;
     this.el.score.innerHTML = 0;
     this.el.gameOver.className = "hidden";
+    this.notify("Bandom dar kartą!", true);
     this.start();
   },
   gameOver: function() {
