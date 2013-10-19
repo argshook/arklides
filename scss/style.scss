@@ -193,6 +193,12 @@ p {
   }
 }
 
-.hidden {
-  display: none !important;
+#time {
+  display: block;
+  width: 100%;
+  text-align: center;
+  color: $white;
+  font-size: 2em;
+  margin: 0.2em auto;
+  text-shadow: 0 2px 0 $color2;
 }

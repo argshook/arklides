@@ -1,10 +1,21 @@
 var Game = {
 
   /*============================================*\
+                     OPTIONS
+  \*============================================*/
+
+  options: {
+    startingTime: 10000, // the initial time given when starting the game (in ms)
+    addedQuestionTime: 5000, // the time given for each correct answer (in ms)
+    takenQuestionTime: 2500, // the time taken for each incorrect answer (in ms)
+  },
+
+  /*============================================*\
                     MAIN ENGINE
   \*============================================*/
 
   init: function() {
+
     this.currentQuestion = "";
     this.currentAnswer = 0;
     this.multiplier = 0;
@@ -21,6 +32,10 @@ var Game = {
 
   },
   start: function() {
+    // stop the timer before starting it again
+    //this.timer().stop();
+    this.timer().start(this.options.startingTime);
+    this.el.time.className = "";
     if(this.currentQuestion === "") {
       // display the question and populate answers
       this.generateQuestion(this.questions);
@@ -38,6 +53,7 @@ var Game = {
     this.start();
   },
   gameOver: function() {
+    this.timer().stop();
     this.el.gameOver.className = "";
     this.el.deathScore.innerHTML = "Surinkai "+this.score+"!";
     this.notify("Žaidimas baigtas :(");
@@ -52,15 +68,25 @@ var Game = {
   \*============================================*/
 
   addScore: function(howMuch) {
-    var reward = this.multiplyScore(howMuch, this.multiplier);
+    var reward = this.multiplyScore(howMuch, this.multiplier),
+        timeAdded = howMuch * this.options.addedQuestionTime,
+        newTime = this.timeLeft + timeAdded;
+    // add time as well as score
+    this.timer().stop();
+    this.timer().start(newTime);
     this.score += reward;
-    this.notify("+"+reward+"!");
+    this.notify("+"+reward+" & +"+this.timer().msToTime(timeAdded)+"!");
     this.printScore(this.score);
   },
   subtractScore: function(howMuch) {
-    var punishment = this.divideScore(howMuch, this.multiplier);
+    var punishment = this.divideScore(howMuch, this.multiplier),
+        timeTaken = howMuch * this.options.takenQuestionTime,
+        newTime = this.timeLeft - timeTaken;
+    // add time as well as score
+    this.timer().stop();
+    this.timer().start(timeTaken);
     this.score -= punishment;
-    this.notify("-"+punishment+" :(");
+    this.notify("-"+punishment+" & -"+this.timer().msToTime(timeTaken)+" :(");
     this.printScore(this.score);
   },
   printScore: function(score) {
@@ -72,6 +98,35 @@ var Game = {
   divideScore: function(score, multiplier) {
     return multiplier > 0 ? (this.score / multiplier) | 0 : score;
   },
+
+  /*============================================*\
+                      TIMING
+  \*============================================*/
+
+  timer: function() {
+
+    var timeEl = this.el.time,
+        gameOver = this.gameOver,
+        self = this;
+
+    var tock = new Tock({
+      countdown: true,
+      interval: 48,
+      callback: function() {
+        var timeLeft = tock.lap();
+        timeEl.innerHTML = tock.msToTime(timeLeft);
+        self.timeLeft = timeLeft;
+      },
+      complete: function() {
+        timeEl.innerHTML = "LAIKAS!!!";
+        Game.gameOver(); //not cool
+      }
+    });
+
+    return tock;
+  },
+
+
 
   /*============================================*\
                     QUESTIONS
@@ -140,7 +195,7 @@ var Game = {
   },
   inCorrect: function() {
     this.subtractScore(1);
-    if(this.score > 0) {
+    if(this.timeLeft > 0) {
       this.generateQuestion(this.questions);
     } else {
       this.gameOver();
@@ -174,7 +229,8 @@ var Game = {
     "playAgain": document.getElementById("playAgain"),
     "score": document.getElementById("score"),
     "deathScore": document.getElementById("deathScore"),
-    "notifications": document.getElementById('notifications')
+    "notifications": document.getElementById('notifications'),
+    "time": document.getElementById('time'),
   },
   
   // Notify user by displaying a message
