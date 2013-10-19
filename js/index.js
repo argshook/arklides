@@ -94,7 +94,7 @@ var Game = {
     this.timer().stop();
     this.timer().start(newTime);
     this.score += reward;
-    this.notify("+"+reward+" & +"+this.timer().msToTime(timeAdded)+"!");
+    this.notify("+"+reward+" & +"+this.timer().msToTime(timeAdded)+"!", "plus");
     this.printScore(this.score);
   },
   subtractScore: function(howMuch) {
@@ -106,7 +106,7 @@ var Game = {
     this.timer().stop();
     this.timer().start(newTime);
     this.score -= punishment;
-    this.notify("-"+punishment+" & -"+this.timer().msToTime(timeTaken)+" :(");
+    this.notify("-"+punishment+" & -"+this.timer().msToTime(timeTaken)+" :(", "minus");
     this.printScore(this.score);
   },
   printScore: function(score) {
@@ -264,14 +264,20 @@ var Game = {
   },
   
   // Notify user by displaying a message
-  notify: function(message, clear) {
-    // clear notification area using Game.notify("message", true);
-    if(clear) {
-      this.el.notifications.innerHTML = "";
-    }
+  notify: function(message, second) {
 
     var messageEl = document.createElement('li');
     messageEl.innerHTML = message;
+
+    // clear notification area using Game.notify("message", true);
+    if(second === true) {
+      this.el.notifications.innerHTML = "";
+    } else if (second === "plus") {
+      messageEl.className = "plus";
+    } else if (second === "minus") {
+      messageEl.className = "minus";
+    }
+
     this.el.notifications.insertBefore(messageEl, this.el.notifications.children[0]);
     //this.el.notifications.appendChild(messageEl);
 
