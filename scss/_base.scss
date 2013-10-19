@@ -13,10 +13,10 @@ $black: #000;
 $grey: #333;
 $red: #f00;
 
-$background: #F6C69C;
+$background: darken(#483C32, 15);
 
-$color1: darken(#9A7B3D, 1%);
-$color2: #7B0704;
+$color1: #483C32;
+$color2: #786D5F;
 $color3: #E67617;
 
 // Dimensions
@@ -62,11 +62,11 @@ $gameInfoHeight: 40px;
 @include keyframes(imgIn) {
   0% {
     opacity: 0;
-    @include transform(translateX(3em));
+    @include transform(translateY(1em));
   }
   100% {
     opacity: 1;
-    @include transform(translateX(0));
+    @include transform(translateY(0));
   }
 }
 
