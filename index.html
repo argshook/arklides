@@ -4,31 +4,35 @@
 <head>
   <meta charset="UTF-8">
   <title>Arkliuko ABC</title>
-  <link href='http://fonts.googleapis.com/css?family=Andika|Underdog&subset=latin,latin-ext' rel='stylesheet' type='text/css'>
-  <link rel="stylesheet" href="css/normalize.css">
+  <link href='http://fonts.googleapis.com/css?family=Andika&subset=latin,latin-ext' rel='stylesheet' type='text/css'>
   <link rel="stylesheet" href="css/style.css" media="screen" type="text/css" />
 </head>
 
 <body>
 
-  <h2>Arkliuko ABC!</h2>
-
-  <p>
-    Ar žinojai, kad Lietuvoje gyvena daugybė arkliukų?<br>
-    Pamėgink įminti, koks arklys atpaizduotas pieštinėje iliustracijoje!
-  </p>
-
   <div id="game">
+    <div id="mainMenu">
+      <h2>Smegenų plovykla!</h2>
+      <div id="info">
+        Atsakyk teisingai: gauk daugiau laiko!<br>
+        Atsakyk neteisingai: prarask dalį laiko.<br>
+        Sėkmės!
+      </div>
+      <div id="startGame">Pradėti žaidimą!</div>
+    </div>
+    <div class="info">
+      <div class="score">Taškai: <span id="score"></span></div>
+      <div id="time">00:00.000</div>
+      <div class="level"><span id="level">1</span> Lygis</div>
+    </div>
     <div id="question"></div>
-    <div class="score">Taškai: <span id="score"></span></div>
-    <div id="time">00:00.000</div>
     <ul id="answers">
     </ul>
     <ul id="notifications"></ul>
     <div id="gameOver" class="hidden">
-      Atsakymas neteisingas :(
+      Laikas baigėsi :(
       <div id="deathScore"></div>
-      <div id="playAgain">Žaisti iš naujo</div>
+      <div id="playAgain">Žaisti iš naujo!</div>
     </div>
   </div>
 

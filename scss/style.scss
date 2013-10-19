@@ -2,91 +2,191 @@
 
 body {
   background: $background;
-  font-family: 'Andika', sans-serif;
+  font-family: $mainFont;
   font-size: $mainFontSize;
-}
-
-h2 {
-  display: block;
-  margin: 1em auto;
-  color: $white;
-  text-shadow: 0 1px 0 $color1;
-  font-family: 'Underdog', sans-serif;
-  text-align: center;
-  font-size: 2.5em;
-  -webkit-text-stroke: 1px $color1;
-  text-shadow:
-   -1px -1px 0 $color1,
-    1px -1px 0 $color1,
-    -1px 1px 0 $color1,
-     1px 1px 0 $color1;
+  height: 100%;
 }
 
 p {
   display: block;
   margin: 1em auto;
   width: $mainWidth;
-  font-size: 1.1em;
+  font-size: 1.3em;
   color: $white;
   text-shadow: 0 1px 0 $color1;
   background: fade-out($color1, 0.4);
-  border-radius: 3px;
-  padding: 0.3em;
+  padding: 1em;
 }
 
 #game {
   width: $mainWidth;
-  min-height: 300px;
-  margin: 0 auto;
+  max-width: 960px;
+  min-height: 700px;
+  margin: 2em auto;
+  box-shadow: 0 0 20px 4px $color1;
   border: 1px solid $color1;
-  border-radius: 4px;
   padding: 7px;
   background: fade-out($color1, 0.4);
+  overflow: hidden;
   position: relative;
 }
 
+/*============================================*\
+                  MAIN MENU
+\*============================================*/
+
+#mainMenu {
+  display: block;
+  position: absolute;
+  top: 0; left: 0;
+  right: 0; bottom: 0;
+  //background: fade-out($color1, 0.2);
+  //box-shadow: 0 0 15px 0 $color2;
+  @include radial-gradient(circle at 50% 50%, fade-out(darken($color1, 10%), 0.3) 1%, fade-out($color1, 0.5) 70%);
+  z-index: 1000;
+  h2 {
+    display: block;
+    margin-top: 2.5em;
+    width: 100%;
+    text-align: center;
+    color: $white;
+    font-size: 3em;
+    text-shadow: 0 1px 1px $grey;
+  }
+  #info {
+    width: 100%;
+    padding: 4em;
+    text-align: center;
+    line-height: 2em;
+    font-size: 1.5em;
+    color: $white;
+    text-shadow: 0 1px 1px $grey;
+  }
+  #startGame {
+    margin: 1em auto;
+    font-size: 1.5em;
+    max-width: 8em;
+    padding: 1em;
+    text-align: center;
+    background: $color2;
+    color: $white;
+    text-shadow: 0 1px 1px $grey;
+    opacity: 0.8;
+    cursor: pointer;
+    @include transition(all 0.2s ease-out);
+    &:hover {
+      opacity: 1;
+    }
+  }
+}
+
+
+/*============================================*\
+                    INFO
+\*============================================*/
+
+.info {
+  
+  position: relative;
+  height: $gameInfoHeight;
+  
+  @include linear-gradient(lighten($color1, 10%), $color1);
+  
+  box-shadow: 0 0 10px 0 $black inset;
+  
+  .box {
+    position: absolute;
+    top: 0;
+    width: 33%;
+    display: block;
+    text-align: center;
+    padding: 0.5em 0;
+    font-size: 1.2em;
+    color: $white;
+    text-shadow: 0 1px 0 $black;
+  }
+  
+  .score {
+    @extend .box;
+    left: 0;
+    #score {
+    
+    }
+   }
+
+  .level {
+    @extend .box;
+    left: 50%;
+    margin-left: -16%;
+    #level {
+      
+    }
+  }
+
+  #time {
+    @extend .box;
+    right: 0;
+    &.attention {
+      @include animation(attention 0.3s linear 3);
+    }
+  }
+
+}
+
+/*============================================*\
+                    QUESTION
+\*============================================*/
+
 #question {
-  background: $color1;
-  font-size: 1.4em;
-  padding: 0.5em 0;
   text-align: center;
   color: $white;
   text-shadow: 0 1px 0 $grey;
-  border: 1px solid $color2;
-  box-shadow: 1px 1px 0 1px $color2;
+  span {
+    display: block;
+    margin: 0.5em auto;
+    padding: 0.4em;
+    font-size: 1.8em;
+    @include linear-gradient($color1, darken($color1, 5%));
+  }
   img {
     display: block;
-    margin: 0.3em auto;
-    padding: 0.2em;
-    border: 1px solid $color2;
+    margin: 1em auto;
     background: fade-out($color1, 0.3);
     @include animation(imgIn 0.5s ease-out);
     max-width: 80%;
     height: auto;
-    max-height: 400px;
+    max-height: 350px;
   }
 }
 
+/*============================================*\
+                    ANSWERS
+\*============================================*/
+
+
 #answers {
   background: $color1;
-  border: 1px solid $color2;
-  box-shadow: 1px 1px 0 1px $color2;
   color: $white;
   text-shadow: 0 1px 0 $grey;
   list-style: none;
   padding: 0;
   @include user-select(none);
+  overflow: hidden;
   li {
-    font-size: 1em;
-    padding: 0.7em;
+    display: block;
+    float: left;
+    width: 50%;
+    text-align: center;
+    height: 5em;
+    font-size: 1.2em;
+    padding: 1.5em;
     @include linear-gradient($color1, darken($color1, 5%));
     @include transition(0.2s all ease-in-out);
-    border: 1px solid $color1;
+    border: 1px solid $color2;
     cursor: pointer;
     &:hover {
-      @include transform(scale(1.02));
       @include linear-gradient($color1, darken($color1, 4%));
-      box-shadow: 5px 5px 10px 0 $color2;
+      box-shadow: 0 0 10px 0 $color2 inset;
       border: 1px solid $color2;
     }
     &:active {
@@ -96,30 +196,34 @@ p {
   }
 }
 
+/*============================================*\
+                    DIALOGS
+\*============================================*/
+
+// GAME OVER
+
 #gameOver {
   display: block;
   position: absolute;
   width: 80%;
-  min-height: 150px;
+  min-height: 100px;
   left: 50%; top: 50%;
-  margin-top: -75px;
+  margin-top: -50px;
   margin-left: -40%;
   background: fade-out($color1, 0.05);
   z-index: 100;
   text-align: center;
-  padding: 2em;
-  font-size: 1em;
+  padding: 1em;
+  font-size: 1.3em;
   color: $white;
   text-shadow: 0 1px 1px $grey;
-  border-radius: 3px;
   border: 1px solid $color2;
   box-shadow: 3px 3px 5px 0 darken($color1, 20%);
   @include animation(noteIn 0.2s ease-in);
   #playAgain {
-    margin: 3em auto 0 auto;
+    margin: 1.5em auto 0.4em auto;
     width: 60%;
     padding: 1em;
-    border-radius: 2px;
     cursor: pointer;
     @include linear-gradient(lighten($color2, 3%), $color2);
     @include transition(all 0.2s ease-out);
@@ -133,24 +237,7 @@ p {
   }
 }
 
-.score {
-  display: block;
-  margin: 1em auto;
-  text-align: center;
-  font-size: 1.2em;
-  color: $white;
-  #score {
-    font-family: 'Underdog', sans-serif;
-    text-align: center;
-    font-size: 2em;
-    -webkit-text-stroke: 1px $color1;
-    text-shadow:
-     -1px -1px 0 $color1,
-      1px -1px 0 $color1,
-      -1px 1px 0 $color1,
-       1px 1px 0 $color1;
-  }
-}
+// NOTIFICATIONS
 
 #notifications {
   display: block;
@@ -162,12 +249,31 @@ p {
   text-shadow: 0 1px 0 $color1;
   list-style: none;
   background: $color1;
-  border-radius: 3px;
-  overflow: hidden;
-  box-shadow:
-      0 0 30px 0 $color2 inset,
-      0 -30px 100px -10px $color2 inset,
-      0px 0px 0 1px $color1;
+  box-shadow: 0 0 30px 0 darken($color1, 15%) inset;
+  position: relative;
+  @include transition(all 0.3s ease-in-out);
+  &:hover {
+    margin-top: 2.5em;
+    box-shadow:
+      0 0 30px 0 darken($color1, 15%) inset,
+      0 -10px 15px -1px darken($color1, 15%);
+    &:before {
+      opacity: 1;
+      top: -25px;
+    }
+  }
+  &:before {
+    @include transition(all 0.3s ease-in-out);
+    content: 'Taškai & laikas';
+    text-shadow: 0 0 3px $grey;
+    display: block;
+    position: absolute;
+    padding: 0.2em;
+    height: 30px;
+    top: 0px;
+    width: 100%;
+    opacity: 0;
+  }
 
   li {
     width: 100%;
@@ -180,7 +286,7 @@ p {
     cursor: default;
 
     border-bottom: 1px solid darken($color1, 15%);
-    @include animation(noteIn 0.4s ease-out);
+    @include animation(noteIn 0.3s ease-out);
     &:nth-child(2) {opacity: 0.8}
     &:nth-child(3) {opacity: 0.6}
     &:nth-child(4) {opacity: 0.4}
@@ -191,14 +297,4 @@ p {
       @include animation(noteOut 0.5s ease-in);
     }
   }
-}
-
-#time {
-  display: block;
-  width: 100%;
-  text-align: center;
-  color: $white;
-  font-size: 2em;
-  margin: 0.2em auto;
-  text-shadow: 0 2px 0 $color2;
 }

@@ -126,7 +126,7 @@ var Tock = (function(options) {
     }
     return minutes + ":" + seconds + "." + milliseconds;
   }
-  
+
   /**
    * Convert a time string to milliseconds
    * Todo: handle this a bit better

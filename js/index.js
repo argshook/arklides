@@ -6,8 +6,8 @@ var Game = {
 
   options: {
     startingTime: 10000, // the initial time given when starting the game (in ms)
-    addedQuestionTime: 5000, // the time given for each correct answer (in ms)
-    takenQuestionTime: 2500, // the time taken for each incorrect answer (in ms)
+    addedQuestionTime: 5100, // the time given for each correct answer (in ms)
+    takenQuestionTime: 2100, // the time taken for each incorrect answer (in ms)
   },
 
   /*============================================*\
@@ -17,23 +17,27 @@ var Game = {
   init: function() {
 
     this.currentQuestion = "";
-    this.currentAnswer = 0;
+    this.currentAnswer = null;
     this.multiplier = 0;
     this.score = this.el.score.innerHTML = 0;
+    this.level = 1;
 
     this.assets = {};
     this.assets.questions = "assets/questions/";
     this.assets.images = "assets/images/";
+    
+    this.el.startGame.onclick = this.mainMenu.bind(this);
 
+  },
+  mainMenu: function() {
+    this.el.mainMenu.className = "hidden";
     // load initial questions and initiate this.start as a callback to start the game
     this.loadQuestions(this.assets.questions+"questions.json", this.start, this);
 
-    this.notify("Sėkmės žaidime!", true);
-
+    this.notify("Važiuojam!", true);
   },
   start: function() {
     // stop the timer before starting it again
-    //this.timer().stop();
     this.timer().start(this.options.startingTime);
     this.el.time.className = "";
     if(this.currentQuestion === "") {
@@ -45,7 +49,7 @@ var Game = {
   },
   restart: function() {
     this.currentQuestion = "";
-    this.currentAnswer = 0;
+    this.currentAnswer = null;
     this.score = 0;
     this.el.score.innerHTML = 0;
     this.el.gameOver.className = "hidden";
@@ -54,6 +58,8 @@ var Game = {
   },
   gameOver: function() {
     this.timer().stop();
+    this.el.answers.innerHTML = "";
+
     this.el.gameOver.className = "";
     this.el.deathScore.innerHTML = "Surinkai "+this.score+"!";
     this.notify("Žaidimas baigtas :(");
@@ -62,6 +68,18 @@ var Game = {
       that.restart();
     };
   },
+  checkLevel: function(direction) {
+    if(this.score > 5) {
+      if(this.score % 6 === 0) {
+        if(direction) {
+          this.level++;
+        } else {
+          this.level--;
+        }
+        this.el.level.innerHTML = this.level;
+      }
+    }
+  },
   
   /*============================================*\
                       SCORE
@@ -69,8 +87,9 @@ var Game = {
 
   addScore: function(howMuch) {
     var reward = this.multiplyScore(howMuch, this.multiplier),
-        timeAdded = howMuch * this.options.addedQuestionTime,
+        timeAdded = howMuch * this.options.addedQuestionTime - this.level * 200,
         newTime = this.timeLeft + timeAdded;
+    if(timeAdded <= 0) timeAdded = 0;
     // add time as well as score
     this.timer().stop();
     this.timer().start(newTime);
@@ -80,11 +99,12 @@ var Game = {
   },
   subtractScore: function(howMuch) {
     var punishment = this.divideScore(howMuch, this.multiplier),
-        timeTaken = howMuch * this.options.takenQuestionTime,
+        timeTaken = howMuch * this.options.takenQuestionTime - this.level * 200,
         newTime = this.timeLeft - timeTaken;
+    if(timeTaken <= 0) timeTaken = 0;
     // add time as well as score
     this.timer().stop();
-    this.timer().start(timeTaken);
+    this.timer().start(newTime);
     this.score -= punishment;
     this.notify("-"+punishment+" & -"+this.timer().msToTime(timeTaken)+" :(");
     this.printScore(this.score);
@@ -118,8 +138,9 @@ var Game = {
         self.timeLeft = timeLeft;
       },
       complete: function() {
-        timeEl.innerHTML = "LAIKAS!!!";
-        Game.gameOver(); //not cool
+        timeEl.innerHTML = "00:00.000";
+        timeEl.className = "attention";
+        self.gameOver();
       }
     });
 
@@ -152,16 +173,24 @@ var Game = {
 
       // question has image, display it
       if(question.length === 4) {
-        return this.el.question.innerHTML = '<img src="'+this.assets.images+question[3]+'" />'+question[0];
+        return this.el.question.innerHTML = '<img src="'+this.assets.images+question[3]+'" /><span>'+question[0]+'</span>';
       }
 
-      return this.el.question.innerHTML = question[0];
+      return this.el.question.innerHTML = "<span>"+question[0]+"</span>";
     } else {
       this.el.questionInnerHTML = "Nėra klausimų :(";
     }
   },
   populateAnswers: function(question, answers, correctAnswer) {
-    this.currentAnswer = correctAnswer;
+
+    // preserve correct answers' value so that it could be used later
+    var preShuffledAnswer = answers[correctAnswer - 1];
+
+    // shuffle the answers
+    // TODO!!! FIX THIS!
+    //var answers = answers.sort(function() { return 0.5 - Math.random() });
+
+    this.currentAnswer = answers.indexOf(preShuffledAnswer) + 1;
 
     // remove previous answers
     this.el.answers.innerHTML = "";
@@ -170,32 +199,30 @@ var Game = {
     for (var i = 0; i < answers.length; i++) {
       var answer = document.createElement('li');
       answer.innerHTML = answers[i];
-      
-      // TODO: randomize answers order!
-      
-      //this.el.answers.appendChild(answers[Math.random() * i | 0]);
+
       this.el.answers.appendChild(answer);
 
       // add click listeners
-      this.el.answers.children[i].answerId = i + 1; // not ++i
-      this.el.answers.children[i].onclick = this.checkAnswer;
+      //this.el.answers.children[i].onclick = this.checkAnswer.bind(this, i);
+      this.el.answers.children[i].addEventListener("click", this.checkAnswer.bind(this, i));
     }
   },
-  checkAnswer: function(e) {
-    // TODO: how can I pass the Game object without invoking it here?
-    if(e.target.answerId === Game.currentAnswer) {
-      return Game.correct();
+  checkAnswer: function(item) {
+    if(item + 1 === this.currentAnswer) {
+      return this.correct();
     } else {
-      return Game.inCorrect();
+      return this.inCorrect();
     }
   },
   correct: function() {
     this.addScore(1);
+    this.checkLevel(true); // level goes up!
     this.generateQuestion(this.questions);
   },
   inCorrect: function() {
     this.subtractScore(1);
     if(this.timeLeft > 0) {
+      this.checkLevel(); // level goes down :(
       this.generateQuestion(this.questions);
     } else {
       this.gameOver();
@@ -223,14 +250,17 @@ var Game = {
   
   // Elements
   el: {
-    "question": document.getElementById("question"),
-    "answers": document.getElementById("answers"),
-    "gameOver": document.getElementById("gameOver"),
-    "playAgain": document.getElementById("playAgain"),
-    "score": document.getElementById("score"),
-    "deathScore": document.getElementById("deathScore"),
-    "notifications": document.getElementById('notifications'),
-    "time": document.getElementById('time'),
+    'question': document.getElementById('question'),
+    'answers': document.getElementById('answers'),
+    'gameOver': document.getElementById('gameOver'),
+    'playAgain': document.getElementById('playAgain'),
+    'score': document.getElementById('score'),
+    'deathScore': document.getElementById('deathScore'),
+    'notifications': document.getElementById('notifications'),
+    'time': document.getElementById('time'),
+    'level': document.getElementById('level'),
+    'mainMenu': document.getElementById('mainMenu'),
+    'startGame': document.getElementById('startGame')
   },
   
   // Notify user by displaying a message
