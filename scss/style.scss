@@ -1,32 +1,19 @@
 @import "base";
 
 body {
-  background: $background;
+  background: $clouds;
   font-family: $mainFont;
   font-size: $mainFontSize;
   height: 100%;
 }
 
-p {
-  display: block;
-  margin: 1em auto;
-  width: $mainWidth;
-  font-size: 1.3em;
-  color: $white;
-  text-shadow: 0 1px 0 $color1;
-  background: fade-out($color1, 0.4);
-  padding: 1em;
-}
-
 #game {
   width: $mainWidth;
-  max-width: 960px;
-  min-height: 700px;
+  max-width: 600px;
+  min-height: 600px;
   margin: 2em auto;
-  box-shadow: 0 0 5px 0 $color2 inset;
-  border: 1px solid $color1;
   padding: 7px;
-  background: fade-out($color1, 0.4);
+  background: $silver;
   overflow: hidden;
   position: relative;
 }
@@ -40,13 +27,11 @@ p {
   position: absolute;
   top: 0; left: 0;
   right: 0; bottom: 0;
-  //background: fade-out($color1, 0.2);
-  //box-shadow: 0 0 15px 0 $color2;
-  @include radial-gradient(circle at 50% 50%, fade-out(darken($color1, 10%), 0.3) 1%, fade-out($color1, 0.5) 70%);
+  @include radial-gradient(circle at 50% 50%, fade-out(darken($asbestos, 10%), 0.3) 1%, fade-out($asbestos, 0.5) 70%);
   z-index: 1000;
   h2 {
     display: block;
-    margin-top: 2.5em;
+    margin-top: 2em;
     width: 100%;
     text-align: center;
     color: $white;
@@ -54,8 +39,9 @@ p {
     text-shadow: 0 1px 1px $grey;
   }
   #info {
+    background: darken(fade-out($asbestos, 0.5), 20);
     width: 100%;
-    padding: 4em;
+    padding: 2em;
     text-align: center;
     line-height: 2em;
     font-size: 1.5em;
@@ -63,20 +49,17 @@ p {
     text-shadow: 0 1px 1px $grey;
   }
   #startGame {
-    margin: 1em auto;
+    margin: 3em auto;
     font-size: 1.5em;
     max-width: 8em;
     padding: 1em;
     text-align: center;
-    background: $color2;
+    background: $nephritis;
     color: $white;
     text-shadow: 0 1px 1px $grey;
     opacity: 0.8;
     cursor: pointer;
-    @include transition(all 0.2s ease-out);
-    &:hover {
-      opacity: 1;
-    }
+    @extend %button;
   }
 }
 
@@ -86,14 +69,11 @@ p {
 \*============================================*/
 
 .info {
-  
+
   position: relative;
   height: $gameInfoHeight;
-  
-  @include linear-gradient(lighten($color1, 15), darken($color1, 10));
-  border: 1px solid lighten($black, 15);
-  border-radius: 2px;
-  box-shadow: 0 0 10px 0 $black inset;
+
+  background: $nephritis;
   
   .box {
     position: absolute;
@@ -101,15 +81,15 @@ p {
     width: 33%;
     display: block;
     text-align: center;
-    padding: 0.5em 0;
-    font-size: 1.2em;
+    padding: 0.3em 0;
+    font-size: 1.3em;
     color: $white;
     text-shadow: 0 1px 0 $black;
   }
   
   .score {
     @extend .box;
-    left: 0;
+    right: 0;
     #score {
     
     }
@@ -117,16 +97,18 @@ p {
 
   .level {
     @extend .box;
-    left: 50%;
-    margin-left: -16%;
+    left: 0;
     #level {
       
     }
   }
 
   #time {
-    @extend .box;
-    right: 0;
+    text-align: center;
+    font-size: 1.9em;
+    height: 100%;
+    color: $white;
+    text-shadow: 0 1px 0 $black;
     &.attention {
       @include animation(attention 0.3s linear 5);
     }
@@ -146,21 +128,19 @@ p {
     display: block;
     margin: 0.5em auto;
     padding: 0.4em;
-    font-size: 1.8em;
-    @include linear-gradient($color1, darken($color1, 5%));
+    font-size: 1.5em;
+    @include linear-gradient($wetAsphalt, darken($wetAsphalt, 5%));
   }
   img {
     padding: 0.3em;
     display: block;
     margin: 1em auto;
-    background: fade-out($color1, 0.3);
-    @include animation(imgIn 0.5s ease-out);
-    max-width: 80%;
+    background: fade-out($wetAsphalt, 0.3);
+    max-width: 90%;
     height: auto;
-    max-height: 350px;
-    border-radius: 3px;
+    max-height: 300px;
     box-shadow: 0 7px 5px 0 fade-out($black, 0.3);
-    
+    @include animation(imgIn 0.5s ease-out);
   }
 }
 
@@ -170,7 +150,6 @@ p {
 
 
 #answers {
-  background: $color1;
   color: $white;
   text-shadow: 0 1px 0 $grey;
   list-style: none;
@@ -178,27 +157,22 @@ p {
   @include user-select(none);
   overflow: hidden;
   li {
-    display: block;
-    float: left;
-    width: 50%;
+    width: 100%;
     text-align: center;
-    height: 5em;
     font-size: 1.2em;
-    padding: 1.5em;
-    @include linear-gradient($color1, darken($color1, 5%));
+    padding: 0.5em;
+    margin: 0.2em 0;
+    background: $greenSea;
     @include transition(0.2s all ease-in-out);
-    border: 1px solid $color2;
     cursor: pointer;
     &:hover {
-      @include linear-gradient($color1, darken($color1, 4%));
-      @include transform(scale(1));
-      box-shadow: 0 0 80px 3px $color2;
-      border: 1px solid $color2;
+      @include linear-gradient($carrot, darken($carrot, 3%));
+      @include transform(scale(1.1));
+      margin: 0.5em 0;
     }
     &:active {
-      @include transform(scale(0.95));
-      box-shadow: 0 0 80px 3px $color2;
-      @include linear-gradient(darken($color1, 4%), $color1);
+      @include transform(scale(1));
+      box-shadow: 0 2px 3px 0 $wetAsphalt inset;
     }
   }
 }
@@ -217,31 +191,22 @@ p {
   left: 50%; top: 50%;
   margin-top: -50px;
   margin-left: -40%;
-  background: fade-out($color1, 0.05);
+  background: fade-out($alizarin, 0.05);
   z-index: 100;
   text-align: center;
   padding: 1em;
   font-size: 1.3em;
   color: $white;
   text-shadow: 0 1px 1px $grey;
-  border: 1px solid $color2;
-  box-shadow: 3px 3px 5px 0 darken($color1, 20%);
-  @include animation(noteIn 0.2s ease-in);
+  box-shadow: 0 3px 5px 0 darken($wetAsphalt, 20%);
+  @include animation(dialogIn 0.4s ease-in);
   #playAgain {
     margin: 1.5em auto 0.4em auto;
     width: 60%;
     padding: 1em;
     cursor: pointer;
-    @include linear-gradient(lighten($color2, 3%), $color2);
-    @include transition(all 0.2s ease-out);
-    &:hover {
-      @include linear-gradient(lighten($color2, 1%), $color2);
-      box-shadow: 0 0 15px 0 fade-out($black, 0.3) inset;
-    }
-    &:active {
-      box-shadow: 0 0 30px 0 fade-out($black, 0.1) inset;
-      border-radius: 3px;
-    }
+    background: $carrot;
+    @extend %button;
   }
 }
 
@@ -249,65 +214,31 @@ p {
 
 #notifications {
   display: block;
-  margin: 0.5em 0;
+  position: absolute;
+  top: 10%;
+  left: 50%;
+  width: 80%;
+  margin: 0 0 0 -40%;
   padding:0;
-  height: 100px;
-  text-align: center;
-  color: $white;
-  text-shadow: 0 1px 0 $color1;
   list-style: none;
-  background: $color1;
-  box-shadow: 0 0 30px 0 darken($color1, 15%) inset;
-  position: relative;
-  @include transition(all 0.3s ease-in-out);
-  &:hover {
-    margin-top: 2.5em;
-    box-shadow:
-      0 0 30px 0 darken($color1, 15%) inset,
-      0 -10px 15px -1px darken($color1, 15%);
-    &:before {
-      opacity: 1;
-      top: -25px;
-    }
+  .good {
+    color: $emerald;
   }
-  &:before {
-    @include transition(all 0.3s ease-in-out);
-    content: 'Taškai & laikas';
-    text-shadow: 0 0 3px $grey;
-    display: block;
-    position: absolute;
-    padding: 0.2em;
-    height: 30px;
-    top: 0px;
-    width: 100%;
-    opacity: 0;
-  }
-  .plus {
-    color: $greenish;
-  }
-  .minus {
-    color: $redish;
+  .bad {
+    color: $alizarin;
   }
   li {
+    text-align: center;
+    float: left;
     width: 100%;
-    text-shadow: 0 1px 0 $grey;
-    font-family: monospace;
-    font-size: 1.2em;
-    padding: 0.3em;
+    color: $white;
+    margin: 0 0 1em 0;
+    text-shadow: 0 1px 1px fade-out($grey, 0.2);
+    background: $asbestos;
+    font-size: 1.4em;
+    padding: 0.5em;
+    opacity: 0;
     font-weight: 600;
-    
-    cursor: default;
-
-    border-bottom: 1px solid darken($color1, 15%);
-    @include animation(noteIn 0.3s ease-out);
-    &:nth-child(2) {opacity: 0.8}
-    &:nth-child(3) {opacity: 0.6}
-    &:nth-child(4) {opacity: 0.4}
-    &:nth-child(5) {
-      @include animation(noteOut 0.4s ease-out);
-    }
-    .closed {
-      @include animation(noteOut 0.5s ease-in);
-    }
+    @include animation(noteIn 2s ease-out);
   }
 }

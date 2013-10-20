@@ -11,28 +11,38 @@
 <body>
 
   <div id="game">
+  
+    <!-- Game parts -->
+  
+    <div class="info">
+      <div class="level"><span id="level">1</span> Lygis</div>
+      <div id="time">00:00.000</div>
+      <div class="score">Taškai: <span id="score"></span></div>
+    </div>
+    <div id="question">
+      <img src="assets/images/noImage.jpg" />
+      <span></span>
+    </div>
+    <ul id="answers">
+    </ul>
+    <ul id="notifications"></ul>
+    
+    <!-- Additional parts -->
+    
+    <div id="gameOver" class="hidden">
+      Laikas baigėsi :(
+      <div id="deathScore"></div>
+      <div id="playAgain">Žaisti iš naujo!</div>
+    </div>
     <div id="mainMenu">
       <h2>Smegenų plovykla!</h2>
       <div id="info">
         Atsakyk teisingai: gauk daugiau laiko!<br>
         Atsakyk neteisingai: prarask dalį laiko.<br>
+        Kai kurie klausimai turi paveikslėlį!<br>
         Sėkmės!
       </div>
       <div id="startGame">Pradėti žaidimą!</div>
-    </div>
-    <div class="info">
-      <div class="score">Taškai: <span id="score"></span></div>
-      <div id="time">00:00.000</div>
-      <div class="level"><span id="level">1</span> Lygis</div>
-    </div>
-    <div id="question"></div>
-    <ul id="answers">
-    </ul>
-    <ul id="notifications"></ul>
-    <div id="gameOver" class="hidden">
-      Laikas baigėsi :(
-      <div id="deathScore"></div>
-      <div id="playAgain">Žaisti iš naujo!</div>
     </div>
   </div>
 

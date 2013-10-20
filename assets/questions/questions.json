@@ -2,6 +2,7 @@
   "questions": [
     ["Kaip gyveno Abraomas?", ["Klajokliškai", "Pusiau klajokliškai", "Pusiau sėsliai", "Pusiau klajokliškai, pusiau sėsliai"], 4, "abraomas.gif"],
     ["Kas pavaizduota?", ["Obuolmušis", "Vytauto didžiojo skydas", "Garsi aktorė", "Keturi belgai"], 1, "arklys.jpg"],
-    ["Ar tai Rupšnotojas didysis?", ["Taip", "Ne", "Toks neegzistuoja"], 3, "arklys.jpg"]
+    ["Ar tai Rupšnotojas didysis?", ["Taip", "Ne", "Toks neegzistuoja"], 3, "arklys.jpg"],
+    ["Klausimas be paveikslėlio", ["Atsakymas", "Atsakymas", "Atsakymas"], 1]
   ]
 }

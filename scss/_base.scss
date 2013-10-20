@@ -8,23 +8,36 @@ $mainFont: 'Andika', sans-serif;
 
 // Colors
 
-$white: #fff;
-$black: #000;
+  // greyish
+  $clouds: rgb(236, 240, 241);
+  $silver: rgb(189, 195, 199);
+  $asbestos: rgb(127, 140, 141);
+
+  // greenish
+  $nephritis: rgb(39, 174, 96);
+  $emerald: rgb(46, 204, 113);
+  
+  // redish
+  $alizarin: rgb(231, 76, 60);
+  
+  // orangeish
+  $carrot: rgb(230, 126, 34);
+  
+  // light blueish
+  $greenSea: rgb(22, 160, 133);
+  
+  // dark blueish
+  $wetAsphalt: rgb(52, 73, 94);
+
+$white: rgb(236, 240, 241);
+$black: rgb(44, 62, 80);
 $grey: #333;
-$red: #f00;
 
-$greenish: rgb(100, 225, 100);
-$redish: rgb(225, 100, 100);
-
-$background: darken(#483C32, 15);
-
-$color1: #483C32;
-$color2: #786D5F;
-$color3: #E67617;
+$background: rgb(236, 240, 241);
 
 // Dimensions
 
-$mainWidth: 90%;
+$mainWidth: 95%;
 $mainFontSize: 0.8em;
 
 $gameInfoHeight: 40px;
@@ -38,29 +51,39 @@ $gameInfoHeight: 40px;
   display: none !important;
 }
 
+%button {
+  @include transition(all 0.2s ease-out);
+  &:hover {
+    box-shadow:
+      1px 1px 0px 0px $wetAsphalt,
+      2px 2px 0px 0px darken($wetAsphalt, 5),
+      3px 3px 0px 0px darken($wetAsphalt, 10)
+      ;
+  }
+  &:active {
+    @include transform(translate(3px));
+    box-shadow: 0px 0px 3px 0 $wetAsphalt inset;
+  }
+}
+
 // keyframes
 
 @include keyframes(noteIn) {
   0% {
     opacity: 0;
-    @include transform(scale(0));
+    @include transform(translateY(4em));
   }
-  100% {
+  30% {
     opacity: 1;
-    @include transform(scale(1));
+    @include transform(translateY(0));
   }
-}
-
-@include keyframes(noteOut) {
-  0% {
+  90% {
     opacity: 1;
   }
   100% {
     opacity: 0;
-    @include transform(translateY(40px));
   }
 }
-
 
 @include keyframes(imgIn) {
   0% {
@@ -70,13 +93,14 @@ $gameInfoHeight: 40px;
   100% {
     opacity: 1;
     @include transform(translateY(0));
+    height: 0;
   }
 }
 
 @include keyframes(attention) {
   0% {
     opacity: 0.4;
-    color: $red;
+    color: $alizarin;
     @include transform(scale(1.3));
   }
   100% {
@@ -84,11 +108,13 @@ $gameInfoHeight: 40px;
   }
 }
 
-@include keyframes(bigButton) {
+@include keyframes(dialogIn) {
   0% {
-    
+    opacity: 0;
+    @include transform(rotateX(40deg) scale(0.98));
   }
   100% {
-    @include transform(scale(4));
+    opacity: 1;
+    @include transform(rotateX(0deg) scale(1));
   }
 }

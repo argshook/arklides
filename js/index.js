@@ -62,10 +62,9 @@ var Game = {
 
     this.el.gameOver.className = "";
     this.el.deathScore.innerHTML = "Surinkai "+this.score+"!";
-    this.notify("Žaidimas baigtas :(");
-    var that = this; // this is nasty
+    var self = this; // this is nasty
     this.el.playAgain.onclick = function() {
-      that.restart();
+      self.restart();
     };
   },
   checkLevel: function(direction) {
@@ -73,8 +72,10 @@ var Game = {
       if(this.score % 6 === 0) {
         if(direction) {
           this.level++;
+          this.notify(this.level+" lygis!", "good");
         } else {
           this.level--;
+          this.notify(this.level+" lygis :(", "bad");
         }
         this.el.level.innerHTML = this.level;
       }
@@ -94,7 +95,7 @@ var Game = {
     this.timer().stop();
     this.timer().start(newTime);
     this.score += reward;
-    this.notify("+"+reward+" & +"+this.timer().msToTime(timeAdded)+"!", "plus");
+    this.notify("+"+reward+" & +"+this.timer().msToTime(timeAdded)+"!", "good");
     this.printScore(this.score);
   },
   subtractScore: function(howMuch) {
@@ -106,7 +107,7 @@ var Game = {
     this.timer().stop();
     this.timer().start(newTime);
     this.score -= punishment;
-    this.notify("-"+punishment+" & -"+this.timer().msToTime(timeTaken)+" :(", "minus");
+    this.notify("-"+punishment+" & -"+this.timer().msToTime(timeTaken)+" :(", "bad");
     this.printScore(this.score);
   },
   printScore: function(score) {
@@ -127,7 +128,7 @@ var Game = {
 
     var timeEl = this.el.time,
         gameOver = this.gameOver,
-        self = this;
+        self = this; // nasty
 
     var tock = new Tock({
       countdown: true,
@@ -165,18 +166,22 @@ var Game = {
 
     if(questions.length > 0) {
       var random = this.getRandInRange(0, questions.length),
-          question = this.questions[random];
+          question = this.questions[random],
+          image = '<img src="'+this.assets.images+question[3]+'" />';
 
       this.currentQuestion = question;
+
+      // question has no image, add place holder
+      if(question.length !== 4) {
+        this.el.question.children[0].src = this.assets.images+'noImage.jpg';
+      } else {
+        this.el.question.children[0].src = this.assets.images+question[3];
+      }
+      this.el.question.children[1].innerText = question[0];
+      
       // display answers in #answers
       this.populateAnswers(random, question[1], question[2]);
 
-      // question has image, display it
-      if(question.length === 4) {
-        return this.el.question.innerHTML = '<img src="'+this.assets.images+question[3]+'" /><span>'+question[0]+'</span>';
-      }
-
-      return this.el.question.innerHTML = "<span>"+question[0]+"</span>";
     } else {
       this.el.questionInnerHTML = "Nėra klausimų :(";
     }
@@ -267,21 +272,23 @@ var Game = {
   notify: function(message, second) {
 
     var messageEl = document.createElement('li');
-    messageEl.innerHTML = message;
+        messageEl.innerHTML = message,
+        self = this; //again...
 
     // clear notification area using Game.notify("message", true);
     if(second === true) {
       this.el.notifications.innerHTML = "";
-    } else if (second === "plus") {
-      messageEl.className = "plus";
-    } else if (second === "minus") {
-      messageEl.className = "minus";
+    } else if (second === "good") {
+      messageEl.className = "good";
+    } else if (second === "bad") {
+      messageEl.className = "bad";
     }
 
-    this.el.notifications.insertBefore(messageEl, this.el.notifications.children[0]);
-    //this.el.notifications.appendChild(messageEl);
+    this.el.notifications.appendChild(messageEl);
 
-    this.el.notifications.scrollTop = 0;
+    setTimeout(function() {
+      messageEl.parentNode.removeChild(messageEl);
+    },2000);
     
     if(this.el.notifications.children.length > 4) {
       this.el.notifications.removeChild(this.el.notifications.children[this.el.notifications.children.length -1]);
