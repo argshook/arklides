@@ -1,0 +1,16 @@
+{
+  "questions": [
+    ["Koks žirgelis čia rupšnoja žolelę?", ["Žemaičių riestasis", "Obuolmušis", "Bėras"], 2, "arklys.jpg"],
+    ["Kas pavaizduota?", ["Obuolmušis", "Vytauto didžiojo skydas", "Garsi aktorė"], 1, "arklys.jpg"],
+    ["Ar tai Rupšnotojas didysis?", ["Taip", "Ne", "Toks neegzistuoja"], 3, "arklys.jpg"],
+    ["Kurios televizijos logotipas čia pavaizduotas??", ["LNK", "TV3", "LTV"], 1, "https://upload.wikimedia.org/wikipedia/en/6/6a/Lnklogo.jpg"],
+    ["Atsakymas į visus klausimus?", ["Taip", "Rytoj", "42"], 3],
+    ["Dabartinis JAV prezidentas", ["B. Obama", "J. Bušas", "L. Graužinienė"], 1],
+    ["Vandens cheminė formulė", ["C2H5OH", "BO2B5", "H20"], 3],
+    ["Koks tai zodiako ženklas?", ["Tauras", "Žuvys", "Ožys"], 1, "http://www.clker.com/cliparts/6/a/e/e/1222277271120416501Taurus.svg.med.png"],
+    ["Kuri iš šių programų nėra interneto naršyklė?", ["Chrome", "Firefox", "Filezilla"], 3],
+    ["Ką geria karvė?", ["Pieną", "Vandenį", "Girą"], 2, "http://images.sciencedaily.com/2008/11/081117082051-large.jpg"],
+    ["Kuriais metais gimė J. Vašingtonas?", ["1991", "1662", "1789"], 3, "https://upload.wikimedia.org/wikipedia/commons/b/b6/Gilbert_Stuart_Williamstown_Portrait_of_George_Washington.jpg"],
+    ["Antroji Lietuvos religija?", ["Krepšinis", "Ledo ritulys", "Bobslėjus"], 1]
+  ]
+}

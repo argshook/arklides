@@ -32,7 +32,7 @@ var Game = {
   mainMenu: function() {
     this.el.mainMenu.className = "hidden";
     // load initial questions and initiate this.start as a callback to start the game
-    this.loadQuestions(this.assets.questions+"questions.json", this.start, this);
+    this.loadQuestions(this.assets.questions+"moarQuestions.json", this.start, this);
 
     this.notify("Važiuojam!", true);
   },
@@ -175,7 +175,12 @@ var Game = {
       if(question.length !== 4) {
         this.el.question.children[0].src = this.assets.images+'noImage.jpg';
       } else {
-        this.el.question.children[0].src = this.assets.images+question[3];
+        var imgPath = question[3];
+        if(imgPath.slice(0,4) === "http") {
+          this.el.question.children[0].src = imgPath;
+        } else {
+          this.el.question.children[0].src = this.assets.images+question[3];
+        }
       }
       this.el.question.children[1].innerText = question[0];
       

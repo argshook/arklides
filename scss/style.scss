@@ -134,13 +134,13 @@ body {
   img {
     padding: 0.3em;
     display: block;
-    margin: 1em auto;
+    margin: 2em auto;
     background: fade-out($wetAsphalt, 0.3);
     max-width: 90%;
     height: auto;
     max-height: 300px;
     box-shadow: 0 7px 5px 0 fade-out($black, 0.3);
-    @include animation(imgIn 0.5s ease-out);
+    //@include animation(imgIn 0.5s ease-out);
   }
 }
 
