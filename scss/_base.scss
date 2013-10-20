@@ -8,26 +8,35 @@ $mainFont: 'Andika', sans-serif;
 
 // Colors
 
-  // greyish
+  $turquoise: rgb(26, 188, 156);
+  $greenSea: rgb(22, 160, 133);
+
+  $emerald: rgb(46, 204, 113);
+  $nephritis: rgb(39, 174, 96);
+
+  $peterRiver: rgb(52, 152, 219);
+  $belizeHole: rgb(41, 128, 185);
+
+  $amethyst: rgb(155, 89, 182);
+  $wisteria: rgb(142, 68, 173);
+
+  $sunFlower: rgb(241, 196, 15);
+  $orange: rgb(243, 156, 18);
+
+  $carrot: rgb(230, 126, 34);
+  $pumpkin: rgb(211, 84, 0);
+
+  $alizarin: rgb(231, 76, 60);
+  $pomegranate: rgb(192, 57, 43);
+
   $clouds: rgb(236, 240, 241);
   $silver: rgb(189, 195, 199);
-  $asbestos: rgb(127, 140, 141);
 
-  // greenish
-  $nephritis: rgb(39, 174, 96);
-  $emerald: rgb(46, 204, 113);
-  
-  // redish
-  $alizarin: rgb(231, 76, 60);
-  
-  // orangeish
-  $carrot: rgb(230, 126, 34);
-  
-  // light blueish
-  $greenSea: rgb(22, 160, 133);
-  
-  // dark blueish
   $wetAsphalt: rgb(52, 73, 94);
+  $midnightBlue: rgb(44, 62, 80);
+  
+  $concrete: rgb(149, 165, 166);
+  $asbestos: rgb(127, 140, 141);
 
 $white: rgb(236, 240, 241);
 $black: rgb(44, 62, 80);
@@ -57,8 +66,7 @@ $gameInfoHeight: 40px;
     box-shadow:
       1px 1px 0px 0px $wetAsphalt,
       2px 2px 0px 0px darken($wetAsphalt, 5),
-      3px 3px 0px 0px darken($wetAsphalt, 10)
-      ;
+      3px 3px 0px 0px darken($wetAsphalt, 10);
   }
   &:active {
     @include transform(translate(3px));

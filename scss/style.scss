@@ -1,7 +1,7 @@
 @import "base";
 
 body {
-  background: $clouds;
+  background: $midnightBlue;
   font-family: $mainFont;
   font-size: $mainFontSize;
   height: 100%;
@@ -27,7 +27,7 @@ body {
   position: absolute;
   top: 0; left: 0;
   right: 0; bottom: 0;
-  @include radial-gradient(circle at 50% 50%, fade-out(darken($asbestos, 10%), 0.3) 1%, fade-out($asbestos, 0.5) 70%);
+  @include radial-gradient(circle at 50% 50%, fade-out(darken($midnightBlue, 10%), 0.3) 1%, fade-out($midnightBlue, 0.5) 70%);
   z-index: 1000;
   h2 {
     display: block;
@@ -54,9 +54,10 @@ body {
     max-width: 8em;
     padding: 1em;
     text-align: center;
-    background: $nephritis;
-    color: $white;
-    text-shadow: 0 1px 1px $grey;
+    background: $alizarin;
+    color: $clouds;
+    //font-weight: 600;
+    //text-shadow: 0 1px 1px $grey;
     opacity: 0.8;
     cursor: pointer;
     @extend %button;
@@ -73,7 +74,7 @@ body {
   position: relative;
   height: $gameInfoHeight;
 
-  background: $nephritis;
+  background: $wetAsphalt;
   
   .box {
     position: absolute;
@@ -162,7 +163,7 @@ body {
     font-size: 1.2em;
     padding: 0.5em;
     margin: 0.2em 0;
-    background: $greenSea;
+    background: $alizarin;
     @include transition(0.2s all ease-in-out);
     cursor: pointer;
     &:hover {
@@ -233,12 +234,12 @@ body {
     width: 100%;
     color: $white;
     margin: 0 0 1em 0;
-    text-shadow: 0 1px 1px fade-out($grey, 0.2);
-    background: $asbestos;
+    //text-shadow: 0 1px 1px fade-out($grey, 0.2);
+    background: $carrot;
     font-size: 1.4em;
     padding: 0.5em;
     opacity: 0;
-    font-weight: 600;
+    //font-weight: 600;
     @include animation(noteIn 2s ease-out);
   }
 }
